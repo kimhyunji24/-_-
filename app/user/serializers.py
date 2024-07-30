@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
 
 
-class AuthTokenSerializer(serializer.Serializer):
+class AuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(
         style = {'input_type': 'password'},

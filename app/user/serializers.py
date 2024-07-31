@@ -4,11 +4,13 @@ Serializers for the user API View
 from django.contrib.auth import (
     get_user_model,
     authenticate,
-)
+    )
 
 from django.utils.translation import gettext as _
 
 from rest_framework import serializers
+# from rest_framework.authtoken.models import Token
+# from django.contrib.auth import authenticate
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -28,6 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
             user.set_password(password)
             user.save()
 
+        return user
+
 
 class AuthTokenSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -36,17 +40,28 @@ class AuthTokenSerializer(serializers.Serializer):
         trim_whitespace = False
     )
 
-def validate(self, attrs):
-    email = attrs.get('email')
-    password = attrs.get('password')
-    user = authenticate(
-        request = self.context.get('request'),
-        username = email,
-        password = password,
-    )
-    if not user:
-        msg = _('Unable to authenticate with provided credentials')
-        raise serializers.ValidationError(msg, code='authorization')
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+        user = authenticate(
+            request = self.context.get('request'),
+            username = email,
+            password = password,
+        )
+        if not user:
+            msg = _('Unable to authenticate with provided credentials')
+            raise serializers.ValidationError(msg, code='authorization')
 
-    attrs['user'] = user
-    return attrs
+        attrs['user'] = user
+        return attrs
+"""
+class CustomAuthTokenSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    def validate(self, data):
+        user = authenticate(email=data['email'], password=data['password'])
+        if user is None:
+            raise serializers.ValidationError('Invalid credentials')
+        return data
+"""

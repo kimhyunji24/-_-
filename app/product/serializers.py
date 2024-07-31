@@ -3,7 +3,7 @@ Serializers for product APIs
 """
 from rest_framework import serializers
 
-from product.models import Product
+from core.models import Product
 
 class ProductSerializer(serializers.ModelSerializer):
 

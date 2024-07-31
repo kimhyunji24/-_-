@@ -7,7 +7,7 @@ from user.serializers import (
     AuthTokenSerializer
 )
 
-from user.serializers import UserSerializer
+# from user.serializers import UserSerializer
 
 # Create your views here.
 class CreateUserView(generics.CreateAPIView):

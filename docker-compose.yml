@@ -22,6 +22,8 @@ services:
       - DB_PASS=changeme
       - API_KEY=j60V6KWnaSxrnblnCkKEEooTQdW9Jx4Ayh%2FmxhV46yPIDI5Lmk6mPKbVKPcTz757jswtGniYg%2BAH%2FgZPCnglUA%3D%3D
       - DJANGO_SETTINGS_MODULE=app.settings
+    # env_file:
+    #   - .env
     depends_on:
       - db
     
@@ -33,6 +35,8 @@ services:
       - POSTGRES_DB=devdb
       - POSTGRES_USER=devuser
       - POSTGRES_PASSWORD=changeme
+    # ports:
+    #   - "5432:5432"
 
 
 volumes:

@@ -9,7 +9,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['product_name', 'product_kind', 'manufacture', 'allergy', 'nutrient', 'product_img']
+        fields = ['product_name', 'product_kind', 'manufacture', 'allergy', 'nutrient', 'product_img', 'meta_img']
 
 class ProductDetailSerializer(ProductSerializer):
 

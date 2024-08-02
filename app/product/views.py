@@ -11,7 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
 from django.conf import settings
-# from django.shortcuts import HttpResponse
 from core.models import Product
 from .serializers import ProductSerializer
 from json.decoder import JSONDecodeError
@@ -40,8 +39,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         params = {
             'ServiceKey': settings.API_KEY,
             'type': 'json',
-            # 'numOfRows': '20',
-            # 'pageNo': '5',
+            'numOfRows': '20',
+            'pageNo': '4',
             'format': 'json',
         }
 
@@ -72,7 +71,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
                 product_kind = item_data.get('prdkind', 'N/A')
                 manufacture = item_data.get('manufacture', 'N/A')
                 allergy = item_data.get('allergy', 'N/A')
-                nutrient = item_data.get('rawmtrl', 'N/A')  # 예를 들어 rawmtrl을 nutrient로 사용
+                nutrient = item_data.get('nutrient', 'N/A')
+                ingredient = item_data.get('rawmtrl', 'N/A')  # 예를 들어 rawmtrl을 nutrient로 사용
                 product_img = item_data.get('imgurl1', 'N/A')
                 meta_img = item_data.get('imgurl2', 'N/A')
                 #     }
@@ -86,6 +86,7 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
                         'manufacture': manufacture,
                         'allergy': allergy,
                         'nutrient': nutrient,
+                        'ingredient': ingredient,
                         'product_img': product_img,
                         'meta_img': meta_img,
                     }

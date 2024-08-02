@@ -46,6 +46,7 @@ class Product(models.Model):
     manufacture = models.CharField(max_length=255, default='Unknown') # 제조원
     allergy = models.TextField(default='Unknown') # 알레르기 유발 물질
     nutrient = models.TextField(default='Unknown') # 영양 성분
+    ingredient = models.TextField(default='Unknown') # 원재료
     product_img = models.URLField(null=True, blank=True) # 제품 이미지
     meta_img = models.URLField(null=True, blank=True) # 메타 이미지 (없어도 될 듯함.)
 

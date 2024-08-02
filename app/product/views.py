@@ -1,4 +1,3 @@
-
 import requests, json
 
 from django.http import JsonResponse
@@ -9,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, schema, action
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 
 from django.conf import settings
 # from django.shortcuts import HttpResponse
@@ -21,9 +21,16 @@ from json.decoder import JSONDecodeError
 API_KEY = settings.API_KEY
 
 # Create your views here.
+class ProductPagination(PageNumberPagination):
+    page_size = 6 # 페이지당 항목 수
+    page_size_query_param = 'page_size'
+    max_page_size = 100 # 최대 페이지 크기
+
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    pagination_class = ProductPagination # 페이지네이션 클래스 설정
+    # 검색 기능
     filter_backends = [filters.SearchFilter]
     search_fields = ['product_name']
 
@@ -33,8 +40,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         params = {
             'ServiceKey': settings.API_KEY,
             'type': 'json',
-            'numOfRows': '10',
-            'pageNo': '1',
+            # 'numOfRows': '20',
+            # 'pageNo': '5',
             'format': 'json',
         }
 
@@ -45,9 +52,9 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
             data = response.json() # JSON 데이터로 변환
 
             # 응답 상태 코드 및 내용 확인
-            print("응답 상태 코드:", response.status_code)
-            print("응답 내용:", json.dumps(data, indent=2)) # JSON 데이터 형식으로 출력
-            print("응답 내용 전체:", response.text)
+            # print("응답 상태 코드:", response.status_code)
+            # print("응답 내용:", json.dumps(data, indent=2)) # JSON 데이터 형식으로 출력
+            # print("응답 내용 전체:", response.text)
 
             # 'body'와 'items' 키가 존재하는지 확인
             body = data.get('body', {})
@@ -86,6 +93,11 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
             
             # 모든 데이터를 반환
             queryset = self.filter_queryset(self.get_queryset())
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.get_serializer(page, many=True)
+                return self.get_paginated_response(serializer.data)
+            
             serializer = self.get_serializer(queryset, many=True)
             return Response(serializer.data)
 

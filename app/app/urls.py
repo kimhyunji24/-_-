@@ -31,5 +31,6 @@ urlpatterns = [
     ),
     path('api/user/', include('user.urls')),
     path('api/product/', include('product.urls')),
+    path('api/nutrient/', include('nutrient.urls')),
     # path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
 ]

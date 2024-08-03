@@ -39,8 +39,8 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
         params = {
             'ServiceKey': settings.API_KEY,
             'type': 'json',
-            'numOfRows': '20',
-            'pageNo': '4',
+            'numOfRows': '100',
+            'pageNo': '5',
             'format': 'json',
         }
 

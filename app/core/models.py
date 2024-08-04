@@ -49,6 +49,8 @@ class Product(models.Model):
     ingredient = models.TextField(default='Unknown') # 원재료
     product_img = models.URLField(null=True, blank=True) # 제품 이미지
     meta_img = models.URLField(null=True, blank=True) # 메타 이미지 (없어도 될 듯함.)
+    total_score = models.FloatField(null=True, blank=True) # 점수
+    grade = models.CharField(max_length=255, default='Unknown') # 등급
 
     def __str__(self):
         return self.product_name

@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const defaultData = [
+  { id: 1, product_name: '신라면', ingredient: '성분1, 성분2, 성분3', product_img: 'shinramen.png' },
+  { id: 2, product_name: '너구리', ingredient: '성분1, 성분2, 성분3', product_img: 'neoguri.png' },
+  { id: 3, product_name: '메로나', ingredient: '성분1, 성분2, 성분3', product_img: 'melon.png' },
+  { id: 4, product_name: '홈런볼', ingredient: '성분1, 성분2, 성분3', product_img: 'homerun.png' },
+];
+
 function Home() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(defaultData);
 
   const handleSearch = async () => {
     try {
@@ -11,6 +18,7 @@ function Home() {
       setSearchResults(response.data);
     } catch (error) {
       console.error('Error fetching search results:', error);
+      setSearchResults(defaultData); // Fallback to default data on error
     }
   };
 

@@ -1,12 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 function ListItem({ image, name, ingredients }) {
-  const [liked, setLiked] = useState(false);
-
-  const handleLike = () => {
-    setLiked(!liked);
-  };
-
   return (
     <div className="list-item">
       <img src={image} alt={name} />
@@ -14,9 +8,7 @@ function ListItem({ image, name, ingredients }) {
         <h3>{name}</h3>
         <p>{ingredients}</p>
         <div className="actions">
-          <span onClick={handleLike}>
-            {liked ? '❤️' : '🤍'}
-          </span>
+          <span>❤️</span>
           <button>Read More</button>
         </div>
       </div>

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 function Gallery() {
   const [items, setItems] = useState([]);
@@ -9,7 +7,7 @@ function Gallery() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        // const response = await axios.get('http://localhost:8000/api/items/');
+        const response = await axios.get('/api/product/products/');
         setItems(response.data);
       } catch (error) {
         console.error('Error fetching items:', error);
@@ -20,23 +18,14 @@ function Gallery() {
   }, []);
 
   return (
-    <div>
-      <Header />
-      <div className="search-bar">
-        <input type="text" placeholder="Search for any food" />
-        <button>Search</button>
-      </div>
-      <div className="gallery-container">
-        {items.map(item => (
-          <div key={item.id} className="gallery-item">
-            <img src={item.image} alt={item.name} />
-          </div>
-        ))}
-      </div>
-      <Footer />
+    <div className="gallery-container">
+      {items.map(item => (
+        <div key={item.id} className="gallery-item">
+          <img src={item.product_img} alt={item.product_name} />
+        </div>
+      ))}
     </div>
   );
 }
 
 export default Gallery;
-

@@ -1,4 +1,4 @@
-.search-bar {
+  .search-bar {
     display:flex;
     justify-content: center;
     margin: 20px 0
@@ -22,19 +22,6 @@
     cursor: pointer;
   }
   
-  .gallery-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    padding: 20px;
-  }
-  
-  .gallery-item img {
-    width: 100%;
-    height: auto;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
 
   .overlay {
     position: fixed;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
 const defaultData = [
   { id: 1, product_name: '신라면', product_img: 'shinramen.png' },
   { id: 2, product_name: '너구리', product_img: 'neoguri.png' },
@@ -29,11 +30,7 @@ function Gallery() {
 
   return (
     <div className="gallery-container">
-      {items.map(item => (
-        <div key={item.id} className="gallery-item">
-          <img src={item.product_img} alt={item.product_name} />
-        </div>
-      ))}
+
     </div>
   );
 }

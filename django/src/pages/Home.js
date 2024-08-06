@@ -1,25 +1,51 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import res from '../response.json'; // JSON 파일 임포트
+import Modal from 'react-modal';
+import '../styles/gallery.css';
 
-const defaultData = [
-  { id: 1, product_name: '신라면', ingredient: '성분1, 성분2, 성분3', product_img: 'shinramen.png' },
-  { id: 2, product_name: '너구리', ingredient: '성분1, 성분2, 성분3', product_img: 'neoguri.png' },
-  { id: 3, product_name: '메로나', ingredient: '성분1, 성분2, 성분3', product_img: 'melon.png' },
-  { id: 4, product_name: '홈런볼', ingredient: '성분1, 성분2, 성분3', product_img: 'homerun.png' },
-];
+
+
+Modal.setAppElement('#root'); // Modal root 설정
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState(defaultData);
+  const [searchResults, setSearchResults] = useState([]);
+  const [similarResults, setSimilarResults] = useState([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [hasSearched, setHasSearched] = useState(false); // 검색 상태 추가
 
-  const handleSearch = async () => {
-    try {
-      const response = await axios.get(`/api/product/products/?search=${searchTerm}`);
-      setSearchResults(response.data);
-    } catch (error) {
-      console.error('Error fetching search results:', error);
-      setSearchResults(defaultData); // Fallback to default data on error
+  const handleSearch = () => {
+    setHasSearched(true); // 검색 수행 상태 업데이트
+
+    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+    const results = res.results.filter(item =>
+      item.product_name.toLowerCase() === lowerCaseSearchTerm
+    );
+    setSearchResults(results);
+
+    if (results.length > 0) {
+      setSelectedItem(results[0]);
+      setModalIsOpen(true);
+      setSimilarResults([]);
+    } else {
+      setModalIsOpen(false);
+      setSelectedItem(null);
+      const similar = res.results.filter(item =>
+        item.product_name.toLowerCase().includes(lowerCaseSearchTerm)
+      );
+      setSimilarResults(similar);
     }
+  };
+
+  const openModalWithItem = (item) => {
+    setSelectedItem(item);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setSelectedItem(null);
   };
 
   return (
@@ -33,17 +59,43 @@ function Home() {
         />
         <button onClick={handleSearch}>Search</button>
       </div>
-      <div className="gallery-container">
-        {searchResults.map((item) => (
-          <div key={item.id} className="gallery-item">
-            <img src={item.product_img} alt={item.product_name} />
-            <div>
-              <h3>{item.product_name}</h3>
-              <p>{item.ingredient}</p>
-            </div>
+
+      {selectedItem && (
+        <Modal
+          isOpen={modalIsOpen}
+          onRequestClose={closeModal}
+          contentLabel="Search Result"
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <div className="modal-content">
+            <img src={selectedItem.product_img} alt={selectedItem.product_name} />
+            <h3>{selectedItem.product_name}</h3>
+            <p><strong>Ingredients:</strong> {selectedItem.ingredient}</p>
+            <p><strong>Nutrient Information:</strong> {selectedItem.nutrient}</p>
+            <button onClick={closeModal}>Close</button>
           </div>
-        ))}
-      </div>
+        </Modal>
+      )}
+
+      {/* 검색 후 검색 결과가 없을 때만 "검색 결과가 없습니다" 메시지를 표시 */}
+      {hasSearched && searchResults.length === 0 && similarResults.length === 0 && (
+        <p>검색 결과가 없습니다.</p>
+      )}
+
+      {similarResults.length > 0 && (
+        <div>
+          <h4>검색 결과</h4>
+          <div className="similar-results">
+            {similarResults.map(item => (
+              <div key={item.id} className="similar-item" onClick={() => openModalWithItem(item)}>
+                <img src={item.product_img} alt={item.product_name} />
+                <h5>{item.product_name}</h5>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

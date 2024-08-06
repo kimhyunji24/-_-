@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -26,7 +25,6 @@ function SearchResults({ favorites, toggleFavorite }) {
     }
   }, [location]);
 
-  // openModalWithItem 함수 정의
   const openModalWithItem = (item) => {
     setSelectedItem(item);
     setModalIsOpen(true);

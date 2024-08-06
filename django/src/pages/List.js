@@ -1,7 +1,9 @@
+// src/pages/List.js
+
 import React, { useState } from 'react';
-import ListItem from '../components/ListItem';
 import { Link } from 'react-router-dom';
 import res from '../response.json'; // JSON 파일 임포트
+import '../styles/list.css'; // 스타일 파일 임포트
 
 const ITEMS_PER_PAGE = 5; // 한 번에 보여줄 항목 수
 
@@ -25,17 +27,18 @@ function List({ favorites }) {
       <h2>좋아요 목록</h2>
       <Link to="/">홈으로 돌아가기</Link>
       {favoriteResults.slice(0, visibleItems).map(item => (
-        <ListItem 
-          key={item.id} 
-          image={item.product_img} 
-          name={item.product_name} 
-          nutrient={item.nutrient}
-          totalScore={Math.floor(item.total_score)} // 소수점 삭제
-          grade={item.grade}
-        />
+        <div key={item.id} className="list-item-container">
+          <img src={item.product_img} alt={item.product_name} className="list-item-image" />
+          <div className="list-item-details">
+            <h3>{item.product_name}</h3>
+            <p><strong>Nutrient Information:</strong> {item.nutrient}</p>
+            <p><strong>Total Score:</strong> {Math.floor(item.total_score)}</p>
+            <p><strong>Grade:</strong> {item.grade}</p>
+          </div>
+        </div>
       ))}
       {visibleItems < favoriteResults.length && (
-        <button onClick={handleLoadMore}>더보기</button>
+        <button onClick={handleLoadMore} className="load-more-button">더보기</button>
       )}
       {favoriteResults.length === 0 && (
         <p>좋아요 한 항목이 없습니다.</p>

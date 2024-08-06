@@ -13,9 +13,6 @@ function Header() {
           <li>
             <Link to="/list">List</Link>
           </li>
-          <li>
-            <Link to="/gallery">Gallery</Link>
-          </li>
           <li>Contact</li>
         </ul>
       </nav>

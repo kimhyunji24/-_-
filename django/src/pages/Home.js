@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import res from '../response.json'; // JSON 파일 임포트
 import Modal from 'react-modal';
 import '../styles/gallery.css';
-
-
+import emptyHeart from '../assets/empty-heart.png'; // 빈 하트 아이콘 경로
+import filledHeart from '../assets/filled-heart.png'; // 채워진 하트 아이콘 경로
 
 Modal.setAppElement('#root'); // Modal root 설정
 
-function Home() {
+function Home({ favorites, setFavorites }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [similarResults, setSimilarResults] = useState([]);
@@ -48,6 +49,16 @@ function Home() {
     setSelectedItem(null);
   };
 
+  const toggleFavorite = (item) => {
+    setFavorites((prevFavorites) => {
+      if (prevFavorites.some(fav => fav.id === item.id)) {
+        return prevFavorites.filter(fav => fav.id !== item.id);
+      } else {
+        return [...prevFavorites, item];
+      }
+    });
+  };
+
   return (
     <div>
       <div className="search-bar">
@@ -73,6 +84,12 @@ function Home() {
             <h3>{selectedItem.product_name}</h3>
             <p><strong>Ingredients:</strong> {selectedItem.ingredient}</p>
             <p><strong>Nutrient Information:</strong> {selectedItem.nutrient}</p>
+            <img
+              src={favorites.some(fav => fav.id === selectedItem.id) ? filledHeart : emptyHeart}
+              alt="favorite"
+              onClick={() => toggleFavorite(selectedItem)}
+              className="heart-icon"
+            />
             <button onClick={closeModal}>Close</button>
           </div>
         </Modal>
@@ -91,11 +108,19 @@ function Home() {
               <div key={item.id} className="similar-item" onClick={() => openModalWithItem(item)}>
                 <img src={item.product_img} alt={item.product_name} />
                 <h5>{item.product_name}</h5>
+                <img
+                  src={favorites.some(fav => fav.id === item.id) ? filledHeart : emptyHeart}
+                  alt="favorite"
+                  onClick={(e) => { e.stopPropagation(); toggleFavorite(item); }}
+                  className="heart-icon"
+                />
               </div>
             ))}
           </div>
         </div>
       )}
+
+      <Link to="/favorites">좋아요 목록 보기</Link>
     </div>
   );
 }

@@ -111,6 +111,11 @@
     height: auto;
   }
   
-  
 
+  .heart-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
   

@@ -112,10 +112,72 @@
   }
   
 
+  .favorites-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .favorite-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    cursor: pointer;
+    width: calc(33% - 20px); /* 세 개의 항목을 가로로 나열 */
+    text-align: center;
+  }
+  
+  .favorite-img {
+    max-width: 100%;
+    height: auto;
+  }
   .heart-icon {
     width: 24px;
     height: 24px;
     cursor: pointer;
     margin-left: 10px;
   }
-  
+  /* src/styles/list.css */
+
+.list-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.list-item-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.list-item-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.list-item-details {
+  flex: 1;
+}
+
+.list-item-details h3 {
+  margin: 0 0 10px 0;
+}
+
+.load-more-button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.load-more-button:hover {
+  background-color: #0056b3;
+}

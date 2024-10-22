@@ -86,3 +86,7 @@ LOGIN_URL = '/admin/login/'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # 모든 호스트 허용
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
